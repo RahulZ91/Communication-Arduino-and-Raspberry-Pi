@@ -1,0 +1,72 @@
+Communication between the Raspi and the Arduino
+Task:
+Send a number from Raspberry Pi. If Arduino Nano recieves the code then the internal LED(pin 13) blinks that many number of times
+
+Steps:
+    1. Open the Arduino IDE
+    
+    2. Write the following code:
+        // Program that accepts an entry from the Raspberry pi and then blinks the LED on pin 13 that number of times
+        // setup the pin and mode 
+        // setup the serial communication with the appropriate baudrate
+
+        const int pinOP=13; // the inbuilt LED is on Pin 13
+
+      void setup()
+    {
+        pinMode(pinOP,OUTPUT);
+        Serial.begin(9600);
+    }
+
+        // the logic and the program
+
+      void loop()
+    {
+        // check the data is sent from the Raspberry Pi 
+        if(Serial.available())
+        {
+            blink(Serial.read());
+        }
+        delay(500);
+    }
+
+      void blink(int i)
+    {
+        for(int j=0;j<i;j++)
+      {
+        digitalWrite(pinOP,HIGH);
+        delay(1000);
+        digitalWrite(pinOP,LOW);
+        delay(1000);
+      }
+    }
+
+	
+    3. Run the code in Arduino
+    
+    4. Write the python code
+    
+      import serial
+      s=serial.Serial('/dev/ttyUSB0',9600)
+      s.write('5')
+
+    5. Enable the I2C in the Raspberry Pi
+    
+    6. Run the following commands to install the python serial library
+        sudo apt-get install python-serial
+
+        sudo pip install pyserial
+
+    7. Find the device for the Raspi
+        ls /dev/tty* # it is ttyUSB0
+
+      Change the device in the Raspberry Pi using this:
+
+      ser=serial.Serial("/dev/ttyUSB0",9600)  
+
+    7. Compile and load the code in Arduino
+    
+    8. Open the console -> navigate to the location of the code
+        python <name_of_program>.py
+
+Note: Baud rate of both the devices MUST BE THE SAME
