@@ -1,0 +1,106 @@
+/ Python code for Raspberry Pi
+// identifies the port and baud rate for serial communication
+// verifies a condition and sounds a buzzer
+
+import serial
+import RPi.GPIO as GPIO
+import time                         # to utilise the sleep function that is used to provide the delays
+
+# setup the serial port and the baudrate for the serail transmission
+ser=serial.Serial("/dev/ttyUSB0",9600)  #serial.Serial("<device from the list>",<baudrate>) for the incoming device
+ser.baudrate=9600                       # set the baud rate for the Raspi
+
+# define the function to send a DC to run the buzzer
+
+def buzz_r(pin):
+    GPIO.output(pin,GPIO.HIGH)
+    time.sleep(2)
+    GPIO.output(pin,GPIO.LOW)
+    time.sleep(2)
+    return;
+
+GPIO.setmode(GPIO.BOARD)            #use the board numbering scheme
+GPIO.setup(11,GPIO.OUT)             #set the GPIO pin 11 as the output pin
+
+
+while True:                         # equivalent of the while(1) in arduino
+    readS=ser.readline()            # function used to read the characters until an EOL(end of line) is found
+    print(readS)
+    if(readS == "Hello Raspberry Pi 4"):
+        buzz_r(11)
+
+
+
+Communication between the Raspi and the Arduino
+Task:
+Send a ‘hello’ from the Arduino to the Raspberry Pi and sound the buzzer if the message is received
+
+Steps:
+    1. Open the Arduino IDE
+    2. Write the following code:
+
+     // Code in Arduino Nano
+    // Sends a text to the Raspberry pi 
+    String s="Hello Raspberry Pi 4";
+
+    void setup()
+  {
+  // set the baudrate
+    Serial.begin(9600);
+  }
+
+    void loop()
+  {
+    Serial.println(s);
+    delay(2000);
+  }
+
+ 3. Run the code in Arduino
+
+ 4. Write the python code
+
+  import serial
+  import RPi.GPIO as GPIO
+  import time                         # to utilise the sleep function that is used to provide the delays
+
+# setup the serial port and the baudrate for the serail transmission
+  ser=serial.Serial("/dev/ttyUSB0",9600)  #serial.Serial("<device from the list>",<baudrate>) for the incoming device
+  ser.baudrate=9600                       # set the baud rate for the Raspi
+
+# define the function to send a DC to run the buzzer
+
+  def buzz_r(pin):
+     GPIO.output(pin,GPIO.HIGH)
+      time.sleep(2)
+      GPIO.output(pin,GPIO.LOW)
+      time.sleep(2)
+      return;
+
+  GPIO.setmode(GPIO.BOARD)            #use the board numbering scheme
+  GPIO.setup(11,GPIO.OUT)             #set the GPIO pin 11 as the output pin
+
+
+  while True:                         # equivalent of the while(1) in arduino
+    readS=ser.readline()            # function used to read the characters until an EOL(end of line) is found
+    print(readS)
+    if(readS == "Hello Raspberry Pi 4"):
+        buzz_r(11)   
+
+5. Enable the I2C in the Raspberry Pi
+  sudo apt-get install python-serial
+
+  sudo pip install pyserial
+
+6. Find the device for the Raspi
+  ls /dev/tty*
+
+  Change the command in the Raspberry Pi using this:
+
+ser=serial.Serial("/dev/ttyUSB0",9600)  
+
+7. Compile and load the code in Arduino
+
+8. Open the console -> navigate to the location of the code
+   python <name_of_program>.py
+
+Note: Baud rate of both the devices MUST BE THE SAME
