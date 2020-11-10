@@ -1,0 +1,12 @@
+1. Setup the mosquitto and client on a raspi
+
+sudo apt update
+sudo apt install mosquitto
+
+2. Publishing and subscribing to the messages
+
+the publisher sends a message Hello on the topic GPS
+mosquitto_pub -t GPS -m "Hello"
+
+the subscriber recieves the message Hello because of the subscription to the topic GPS
+mosquitto_sub -t GPS
