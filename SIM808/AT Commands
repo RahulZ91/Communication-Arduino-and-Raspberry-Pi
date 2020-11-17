@@ -1,1 +1,21 @@
 AT commands
+
+AT commands are ana abbreviation for Attention. The commands are used to control MODEMs.These can be used with GSM, Modem in different capacities to carry out the four crucial functions: 
+1. read
+2. test 
+3. set
+4. execute
+
+For the SIM808 Module, the following AT commands are used:
+1. AT+CGPSPWR=1 -     powers up the GPS present in the module
+2. AT+CGPSSTATUS? -   returns if the GPS has obtained a fix or not
+3. AT+CGPSRST=0 -     gives a cold reset to the gps- cold in GPS relates to a loss of GPS receiver or inaccurate information
+4. AT+CGSINF=0        returns a single NMEA sentence for the GPS information (which may be valid or invalid depending on whether the GPS has obtained a fix or not)
+5. AT+CGNSTST=1       send the NMEA data to AT UART
+
+AT Commands to obtain information about the Modem
+1. AT+CGMI            Returns the information about the phone manufacturer
+2. AT+CGMM            Returns the information about the model number
+3. AT+CGSN            Returns the information about the IMEI number of the device
+4. AT+CGMR            Returns the information about the software version available 
+
